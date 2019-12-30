@@ -122,8 +122,10 @@ contract ECRingSignature is ECSecp256k1 {
         firstComparingElement = ECSecp256k1.ecMul(sig.delta, G);
 
 
-        secondComparingElement = ECSecp256k1.CurveElement(0, 0);
-        for(uint256 i = 0; i < ringSize; i++){
+        secondComparingElement = ECSecp256k1.ecAdd(secondComparingElement, sig.RList[0]);
+        secondComparingElement = ECSecp256k1.ecAdd(secondComparingElement, ECSecp256k1.ecMul(sig.hashList[0], pks[0]));
+
+        for(uint256 i = 1; i < ringSize; i++){
             secondComparingElement = ECSecp256k1.ecAdd(secondComparingElement, sig.RList[i]);
             secondComparingElement = ECSecp256k1.ecAdd(secondComparingElement, ECSecp256k1.ecMul(sig.hashList[i], pks[i]));
         }
