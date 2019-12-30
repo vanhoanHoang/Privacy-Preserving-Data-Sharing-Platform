@@ -102,7 +102,7 @@ contract ECRingSignature is ECSecp256k1 {
     */
 
 
-    function ringVerify(JGSignature memory sig, uint256 ringSize) public view returns(bool){
+    function ringVerify(JGSignature memory sig, uint256 ringSize) public  returns(bool){
         ECSecp256k1.CurveElement memory G;
         G = ECSecp256k1.CurveElement(ECSecp256k1.GX, ECSecp256k1.GY);
 
@@ -127,6 +127,8 @@ contract ECRingSignature is ECSecp256k1 {
             secondComparingElement = ECSecp256k1.ecAdd(secondComparingElement, sig.RList[i]);
             secondComparingElement = ECSecp256k1.ecAdd(secondComparingElement, ECSecp256k1.ecMul(sig.hashList[i], pks[i]));
         }
+        delete pks;
+
         if(ECSecp256k1.ecEqual(firstComparingElement, secondComparingElement)) return true;
         return false;
 
